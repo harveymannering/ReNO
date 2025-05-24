@@ -157,6 +157,14 @@ class RewardFluxPipeline(FluxPipeline):
     _optional_components = []
     _callback_tensor_inputs = ["latents", "prompt_embeds"]
 
+    @property
+    def components(self):
+        base_components = super().components
+        # Remove unused or unsupported components
+        base_components.pop("feature_extractor", None)
+        base_components.pop("image_encoder", None)
+        return base_components
+
     def __init__(
         self,
         scheduler: FlowMatchEulerDiscreteScheduler,
