@@ -157,17 +157,6 @@ class RewardFluxPipeline(FluxPipeline):
     _optional_components = []
     _callback_tensor_inputs = ["latents", "prompt_embeds"]
 
-    @property
-    def components(self):
-        # Copy internal components dictionary
-        base_components = dict(self._components)
-
-        # Remove the ones we don't want
-        base_components.pop("feature_extractor", None)
-        base_components.pop("image_encoder", None)
-
-        return base_components
-
     def __init__(
         self,
         scheduler: FlowMatchEulerDiscreteScheduler,
@@ -210,6 +199,17 @@ class RewardFluxPipeline(FluxPipeline):
             tokenizer_2,
             transformer,
         )
+
+    @property
+    def components(self):
+        # Only return cleaned-up components if _components is already defined
+        if not hasattr(self, "_components"):
+            return {}
+
+        base_components = dict(self._components)
+        base_components.pop("feature_extractor", None)
+        base_components.pop("image_encoder", None)
+        return base_components
 
     def apply(
         self,
