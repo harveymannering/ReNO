@@ -207,6 +207,9 @@ class RewardFluxPipeline(FluxPipeline):
             tokenizer_2,
             transformer,
         )
+        
+        self.components.pop("feature_extractor", None)
+        self.components.pop("image_encoder", None)
 
     def apply(
         self,
