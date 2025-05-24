@@ -166,8 +166,6 @@ class RewardFluxPipeline(FluxPipeline):
         text_encoder_2: T5EncoderModel,
         tokenizer_2: T5TokenizerFast,
         transformer: FluxTransformer2DModel,
-        feature_extractor,
-        image_encoder,
         memsave: bool = False,
     ):
         # optionally enable memsave_torch
