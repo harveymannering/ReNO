@@ -159,10 +159,13 @@ class RewardFluxPipeline(FluxPipeline):
 
     @property
     def components(self):
-        base_components = super().components
-        # Remove unused or unsupported components
+        # Copy internal components dictionary
+        base_components = dict(self._components)
+
+        # Remove the ones we don't want
         base_components.pop("feature_extractor", None)
         base_components.pop("image_encoder", None)
+
         return base_components
 
     def __init__(
@@ -207,9 +210,6 @@ class RewardFluxPipeline(FluxPipeline):
             tokenizer_2,
             transformer,
         )
-        
-        self.components.pop("feature_extractor", None)
-        self.components.pop("image_encoder", None)
 
     def apply(
         self,
