@@ -159,8 +159,6 @@ class RewardFluxPipeline(FluxPipeline):
 
     def __init__(
         self,
-        feature_extractor,
-        image_encoder,
         scheduler: FlowMatchEulerDiscreteScheduler,
         vae: AutoencoderKL,
         text_encoder: CLIPTextModel,
