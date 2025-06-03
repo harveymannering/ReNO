@@ -65,7 +65,7 @@ class LatentNoiseTrainer:
         latent_dim = math.prod(latents.shape[1:])
         
         if save_noise:
-            np.save(f"{save_dir}/init_noise.npy", latents.cpu().numpy())
+            np.save(f"{save_dir}/init_noise.npy", latents.detach().cpu().numpy())
         
         for iteration in range(self.n_iters):
             to_log = ""
@@ -149,5 +149,5 @@ class LatentNoiseTrainer:
             best_image_pil = DiffusionPipeline.numpy_to_pil(image_numpy)[0]
         
         if save_noise:
-            np.save(f"{save_dir}/best_noise.npy", best_latents.cpu().numpy())
+            np.save(f"{save_dir}/best_noise.npy", best_latents.detach().cpu().numpy())
         return initial_image, best_image_pil, initial_rewards, best_rewards
