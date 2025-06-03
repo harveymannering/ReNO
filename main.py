@@ -133,7 +133,7 @@ def main(args):
             save_dir = f"{args.save_dir}/{args.task}/{settings}/{name}"
             os.makedirs(save_dir, exist_ok=True)
             init_image, best_image, init_rewards, best_rewards = trainer.train(
-                latents, prompt, optimizer, save_dir, multi_apply_fn
+                latents, prompt, optimizer, save_dir, multi_apply_fn, True
             )
             if i == 0:
                 total_best_rewards = {k: 0.0 for k in best_rewards.keys()}

@@ -6,6 +6,7 @@ import PIL
 import PIL.Image
 import torch
 from diffusers import DiffusionPipeline
+import numpy as np
 
 from rewards import clip_img_transform
 from rewards.base_reward import BaseRewardLoss
@@ -52,6 +53,7 @@ class LatentNoiseTrainer:
         optimizer: torch.optim.Optimizer,
         save_dir: Optional[str] = None,
         multi_apply_fn=None,
+        save_noise: bool = False,
     ) -> Tuple[PIL.Image.Image, Dict[str, float], Dict[str, float]]:
         logging.info(f"Optimizing latents for prompt '{prompt}'.")
         best_loss = torch.inf
@@ -61,6 +63,10 @@ class LatentNoiseTrainer:
         best_rewards = None
         best_latents = None
         latent_dim = math.prod(latents.shape[1:])
+        
+        if save_noise:
+            np.save(f"{save_dir}/init_noise.npy", latents.cpu().numpy())
+        
         for iteration in range(self.n_iters):
             to_log = ""
             rewards = {}
@@ -141,4 +147,7 @@ class LatentNoiseTrainer:
                 multi_step_image.detach().cpu().permute(0, 2, 3, 1).float().numpy()
             )
             best_image_pil = DiffusionPipeline.numpy_to_pil(image_numpy)[0]
+        
+        if save_noise:
+            np.save(f"{save_dir}/best_noise.npy", best_latents.cpu().numpy())
         return initial_image, best_image_pil, initial_rewards, best_rewards
