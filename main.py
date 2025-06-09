@@ -118,6 +118,20 @@ def main(args):
         )
         best_image.save(f"{save_dir}/best_image.png")
         init_image.save(f"{save_dir}/init_image.png")
+    elif args.task == "multiple":
+        total_images = args.total_images
+        for idx in tqdm(range(total_images), total=total_images):
+            init_latents = torch.randn(shape, device=device, dtype=dtype)
+            latents = torch.nn.Parameter(init_latents, requires_grad=enable_grad)
+            optimizer = get_optimizer(args.optim, latents, args.lr, args.nesterov)
+            save_dir = f"{args.save_dir}/{args.task}/{settings}/{args.prompt[:150]}"
+            os.makedirs(f"{save_dir}", exist_ok=True)
+            init_image, best_image, total_init_rewards, total_best_rewards = trainer.train(
+                latents, args.prompt, optimizer, save_dir, multi_apply_fn
+            )
+            best_image.save(f"{save_dir}/best_image_{idx}.png")
+            init_image.save(f"{save_dir}/init_image_{idx}.png")
+        
     elif args.task == "example-prompts":
         fo = open("assets/example_prompts.txt", "r")
         prompts = fo.readlines()

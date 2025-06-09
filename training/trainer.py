@@ -150,4 +150,5 @@ class LatentNoiseTrainer:
         
         if save_noise:
             np.save(f"{save_dir}/best_noise.npy", best_latents.detach().cpu().numpy())
+        
         return initial_image, best_image_pil, initial_rewards, best_rewards

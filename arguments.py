@@ -36,6 +36,7 @@ def parse_args():
         "--grad_clip", type=float, help="Gradient clipping", default=0.1
     )
     parser.add_argument("--seed", type=int, help="Seed to use", default=0)
+    parser.add_argument("--total_images", type=int, help="Number of images to generate.", default=0)
 
     # reward losses
     parser.add_argument(
@@ -102,6 +103,7 @@ def parse_args():
         choices=[
             "t2i-compbench",
             "single",
+            "multiple",
             "parti-prompts",
             "geneval",
             "example-prompts",
