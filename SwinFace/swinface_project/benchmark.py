@@ -81,13 +81,13 @@ if __name__ == "__main__":
     # Process all images
     results = []
     for i, image_path in enumerate(image_files, 1):
-        if int(image_path.split('_')[-1].split('.')[0]) <= 100:
-            print(f"Processing {i}/{len(image_files)}: {os.path.basename(image_path)}")
-            result = inference(cfg, args.weight, image_path)
-            if result:
-                results.append(result)
-                print(len(results))
-    
+        #if int(image_path.split('_')[-1].split('.')[0]) <= 100:
+        print(f"Processing {i}/{len(image_files)}: {os.path.basename(image_path)}", flush=True)
+        result = inference(cfg, args.weight, image_path)
+        if result:
+            results.append(result)
+            print(len(results))
+
     print("Final results length:", len(result))
     # Save results to CSV
     with open(args.output, 'w', newline='', encoding='utf-8') as csvfile:
